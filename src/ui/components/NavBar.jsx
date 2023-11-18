@@ -1,45 +1,79 @@
-import { LogoutOutlined, MenuOutlined } from "@mui/icons-material";
-import { AppBar, Grid, IconButton, Toolbar, Typography } from "@mui/material";
-import { useDispatch } from "react-redux";
+import { Avatar, Box, IconButton, Stack, SvgIcon, alpha, useMediaQuery } from "@mui/material";
 
-export const NavBar = ({ drawerWidth = 240 }) => {
-  const dispatch = useDispatch();
+import { usePopover } from '../../hooks';
+import { AccountPopover } from "./AccountPopover";
 
-  const logout = async () => {
-    localStorage.clear();
-    dispatch(logout());
-  };
+const SIDE_NAV_WIDTH = 280;
+const TOP_NAV_HEIGHT = 64;
+
+export const NavBar = ({ onNavOpen }) => {
+
+  const lgUp = useMediaQuery((theme) => theme.breakpoints.up('lg'));
+  const accountPopover = usePopover();
 
   return (
-    <AppBar
-      position="fixed"
-      sx={{
-        width: { sm: `calc(100% - ${drawerWidth}px)` },
-        ml: { sm: `${drawerWidth}px` },
-      }}
-    >
-      <Toolbar>
-        <IconButton
-          color="inherit"
-          edge="start"
-          sx={{ mr: 2, display: { sm: "none" } }}
-        >
-          <MenuOutlined />
-        </IconButton>
-        <Grid
-          container
+    <>
+      <Box component="header" 
+        sx={{
+          backdropFilter: 'blur(6px)',
+          backgroundColor: (theme) => alpha(theme.palette.background.default, 0.8),
+          position: 'sticky',
+          left: {
+            lg: `${SIDE_NAV_WIDTH}px`
+          },
+          top: 0,
+          width: {
+            lg: `calc(100% - ${SIDE_NAV_WIDTH}px)`
+          },
+          zIndex: (theme) => theme.zIndex.appBar
+        }}
+      >
+        <Stack 
+          alignItems="center"
           direction="row"
           justifyContent="space-between"
-          alignItems="center"
+          spacing={2}
+          sx={{
+            minHeight: TOP_NAV_HEIGHT,
+            px: 2
+          }}
         >
-          <Typography variant="h6" noWrap component="div">
-            Welcome again
-          </Typography>
-          <IconButton color="error" onClick={logout}>
-            <LogoutOutlined />
-          </IconButton>
-        </Grid>
-      </Toolbar>
-    </AppBar>
+          <Stack
+            alignItems="center"
+            direction="row"
+            spacing={2}
+          >
+            {!lgUp && (
+              <IconButton onClick={onNavOpen}>
+                <SvgIcon fontSize="small">
+                  <Bars3Icon />
+                </SvgIcon>
+              </IconButton>
+            )}
+          </Stack>
+          <Stack 
+            alignItems="center"
+            direction="row"
+            spacing={2}
+          >
+            <Avatar 
+              onClick={ accountPopover.handleOpen }
+              ref={ accountPopover.anchorRef }
+              sx={{
+                cursor: 'pointer',
+                height: 40,
+                width: 40
+              }}
+              src="https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/296.jpg"
+            />
+          </Stack>
+        </Stack>
+      </Box>
+      <AccountPopover 
+        anchorEl={accountPopover.anchorRef.current}
+        open={accountPopover.open}
+        onClose={accountPopover.handleClose}
+      />
+    </>
   );
 };

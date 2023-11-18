@@ -1,47 +1,119 @@
-import { Divider, Drawer, List, Toolbar, Typography } from "@mui/material"
-import { Box } from "@mui/system"
-import { SideBarItem } from "./SideBarItem"
-import { TurnedInNot } from "@mui/icons-material"
+import { Box, Divider, Drawer, Stack, useMediaQuery } from "@mui/material";
+import { SideBarItem } from "./SideBarItem";
+import { Scrollbar } from "./Scrollbar";
+import { Link, useLocation } from "react-router-dom";
 
-export const SideBar = ({ drawerWidth = 240 }) => {
-  return (
-    <Box component='nav'
-      sx={{ 
-        width: { sm: drawerWidth }, 
-        flexShrink: { sm: 0 },
-      }}
+import { routes } from '../../nextSnkr/routes/routes.jsx'
+
+export const SideBar = ({ open, onClose }) => {
+  const location = useLocation();
+  const lgUp = useMediaQuery((theme) => theme.breakpoints.up('lg'));
+
+  const content = (
+    <Scrollbar
+      sx={{
+        height: '100%',
+        '& .simplebar-content': {
+          height: '100%'
+        },
+        '& .simplebar-scrollbar:before': {
+          background: 'neutral.400'
+        }
+      }}  
+    >
+      <Box 
+        sx={{
+          display: 'flex',
+          flexDirection: 'column',
+          height: '100%'
+        }}
       >
-      <Drawer variant='permanent' open
+        <Box sx={{ p: 3 }}>
+          <Box
+            component={Link}
+            href="/"
+            sx={{
+              display: 'inline-flex',
+              height: 32,
+              width: 32
+            }}
+          >
+            Logo
+          </Box>
+        </Box>
+        <Divider sx={{ borderColor: 'neutral.700' }} />
+        <Box
+          component="nav"
+          sx={{
+            flexGrow: 1,
+            px: 2,
+            py: 3
+          }}
+        >
+          <Stack
+            component="ul"
+            spacing={0.5}
+            sx={{
+              listStyle: 'none',
+              p: 0,
+              m: 0
+            }}
+          >
+            { routes.map( (route) => {
+              const active = route.path ? (location.pathname === route.path) : false;
+
+              return (
+                <SideBarItem 
+                  active={active}
+                  disabled={route.disabled}
+                  icon={route.icon}
+                  key={route.title}
+                  path={route.path}
+                  title={route.title}
+                />
+              )
+            })}
+          </Stack>
+        </Box>
+      </Box>
+    </Scrollbar>
+  );
+
+  if(lgUp) {
+    return (
+      <Drawer
+        anchor="left"
+        open
         PaperProps={{
           sx: {
-            backgroundColor: 'primary.main', 
-            color: 'white'
+            backgroundColor: 'neutral.800',
+            color: 'common.white',
+            width: 280
           }
         }}
-        sx={{ 
-          display: { sx: 'block' }, 
-          '& .MuiDrawer-paper': { 
-            boxSizing: 'border-box', 
-            width: drawerWidth 
-          }
-        }}
+        variant="permanent"
       >
-        <Toolbar>
-          <Typography variant='h6' noWrap component='div'>Who is next?</Typography>
-        </Toolbar>
-        <Divider />
-        <List>
-          <SideBarItem title="Products">
-            <TurnedInNot />
-          </SideBarItem>
-          <SideBarItem title="Scoring Characteristics">
-            <TurnedInNot />
-          </SideBarItem>
-          <SideBarItem title="Users">
-            <TurnedInNot />
-          </SideBarItem>
-        </List>
+        { content }
       </Drawer>
-    </Box>
-  )
-}
+    )
+  }
+
+  return (
+    <Drawer 
+      anchor="left"
+      onClose={onClose}
+      open={open}
+      PaperProps={{
+        sx: {
+          backgroundColor: 'neutral.800',
+          color: 'common.white',
+          width: 280
+        }
+      }}
+      sx={{ zIndex: (theme) => theme.zIndex.appBar + 100 }}
+      variant="temporary"
+    >
+      { content }
+    </Drawer>
+  );
+};

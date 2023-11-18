@@ -12,14 +12,13 @@ export const useCheckAuth = () => {
     const fetchUser = async () => {
       const userToken = localStorage.getItem('userToken');
       if(!userToken) return dispatch(logout());
-      console.log({userToken})
       try {
         const { data: userData, status } = await nextSnkrsApi.get(
           'users/me'
         )
+
         if(!userData) return dispatch(logout({errorMessage}));
-        
-        console.log({userData})
+
         const { role, username, _id, email } = userData
         
         dispatch(login({_id, email, username }));
