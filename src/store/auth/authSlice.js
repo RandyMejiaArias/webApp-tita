@@ -7,6 +7,7 @@ export const authSlice = createSlice({
         _id: null,
         email: null,
         username: null,
+        role: null,
         photoURL: null,
         errorMessage: null
     },
@@ -17,6 +18,7 @@ export const authSlice = createSlice({
             state.email =  payload.email;
             state.username =  payload.username;
             state.photoURL =  payload.photoURL;
+            state.role = payload.role;
             state.errorMessage =  null;
         },
         logout: (state, { payload }) => {
@@ -25,6 +27,7 @@ export const authSlice = createSlice({
             state.email =  null;
             state.username =  null;
             state.photoURL =  null;
+            state.role = null;
             state.errorMessage =  payload?.errorMessage;
         },
         checkingCredentials: (state) => {

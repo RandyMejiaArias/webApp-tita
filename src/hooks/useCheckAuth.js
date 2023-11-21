@@ -21,7 +21,7 @@ export const useCheckAuth = () => {
 
         const { role, username, _id, email } = userData
         
-        dispatch(login({_id, email, username }));
+        dispatch(login({_id, email, username, role }));
       } catch ({ response, request, message }) {
         console.log({ response, request, message })
         if(response) {
