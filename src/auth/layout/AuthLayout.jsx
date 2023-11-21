@@ -1,68 +1,71 @@
-import { Box, Grid, Typography } from '@mui/material'
+import { Box, Card, CardContent, Grid, Typography } from '@mui/material'
 
-export const AuthLayout = ({children, title = ''}) => {
+import bgImage from '../../assets/Recordatorio.png';
+
+export const AuthLayout = ({children}) => {
   return (
-    <Box
-      width="100vw"
-      height="100%"
-      minHeight="100vh"
-      bgcolor="primary.main"
+    <Box component="main" 
+      sx={{
+        display: 'flex',
+        flex: '1 1 auto'
+      }}
     >
-      <Grid container>
-        <Grid item xs={12} lg={6}>
-          <Box
-            display={{ xs: "none", lg: "flex" }}
-            width="calc(100% - 2rem)"
-            height="calc(100vh - 2rem)"
-            borderRadius="lg"
-            ml={2}
-            mt={2}
-            sx={{ backgroundSize: 'cover' }}
-          >
-          </Box>
-        </Grid>
-        <Grid item xs={12} sm={8} md={6} lg={4} xl={3}
+      <Grid container sx={{ flex: '1 1 auto', minHeight: '100vh' }}>
+        <Grid 
+          xs={12}
+          lg={6}
           sx={{
-            mx: "auto",
-            width: {md: 450},
-            backgroundColor: 'white',
-            padding: 3,
-            borderRadius: 2
+            backgroundColor: 'background.paper',
+            display: 'flex',
+            flexDirection: 'column',
+            position: 'relative'
           }}
         >
-          <Box display="flex" flexDirection="column" justifyContent="center" height="100vh">
-            <Box py={3} px={3} textAlign="center">
-              <Box mb={1} textAlign="center">
-                <Typography variant="h4" fontWeight="bold" >
-                  { title }
-                </Typography>
-              </Box>
-            </Box>
-            <Box p={3}>{ children }</Box>
-          </Box>
+          { children }
+        </Grid>
+
+        <Grid container
+          lg={6}
+          display={{ xs: "none", lg: "flex" }}
+          sx={{
+            backgroundImage: `url(${bgImage})`,
+            backgroundRepeat: "no-repeat",
+            backgroundPosition: "center",
+            backgroundSize: "cover",
+            alignItems: "center",
+            justifyContent: "center",
+            color: "white"
+          }}
+        >
+          <Grid item
+            xs={12}
+            sm={8}
+            md={5}
+            sx={{
+              flexDirection: 'column',
+              alignItems: 'center',
+              justifyContent: 'center'
+            }}
+          >
+            <Typography 
+              align="center"
+              color="inherit"
+              variant='h1'
+              sx={{
+                fontSize: '24px',
+                lineHeight: '32px',
+                mb: 1
+              }}
+            >
+              Welcome to{' '}
+              <Box component="a"
+                sx={{ color: '#E8640A'}}
+                target='_blank'
+              > Next SNKR</Box>
+            </Typography>
+          </Grid>
         </Grid>
       </Grid>
     </Box>
-    // <Grid container
-    //   spacing={0}
-    //   direction='column'
-    //   alignItems='center'
-    //   justifyContent='center'
-    //   sx={{ minHeight: '100vh', backgroundColor: 'primary.main', padding: 4 }}
-    // >
-    //   <Grid item
-    //     className='box-shadow'
-    //     xs={3}
-    //     sx={{
-    //       width: {md: 450},
-    //       backgroundColor: 'white',
-    //       padding: 3,
-    //       borderRadius: 2
-    //     }}
-    //   >
-    //     <Typography variant='h5' sx={{mb: 1}}>{ title }</Typography>
-    //     { children }
-    //   </Grid>
-    // </Grid>
   )
 }
