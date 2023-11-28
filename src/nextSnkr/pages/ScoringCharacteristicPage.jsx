@@ -41,31 +41,14 @@ export const ScoringCharacteristicPage = () => {
                     </SvgIcon>
                   )}
                   variant="contained"
-                >Add</Button>
+                >
+                  Add
+                </Button>
               </div>
             </Stack>
-            {/* <Card sx={{ p:2 }}>
-              <OutlinedInput 
-                defaultValue=""
-                fullWidth
-                placeholder="Search characteristic"
-                sx={{ maxWidth: 500 }}
-                startAdornment={(
-                  <InputAdornment position="start">
-                    <SvgIcon
-                      color="action"
-                      fontSize="small"
-                    >
-                      <Search />
-                    </SvgIcon>
-                  </InputAdornment>
-                )}
-              />
-            </Card> */}
             <Grid container spacing={3}>
               { characteristics.map( (characterisctic) => (
-                <Grid 
-                  sx={{ mb: 2 }}
+                <Grid item
                   xs={12}
                   md={6}
                   lg={4}
