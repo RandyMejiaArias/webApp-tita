@@ -1,4 +1,5 @@
 import nextSnkrsApi from "../../api/nextSnkrsApi";
+import { fetchDataFailure, fetchDataStart, fetchDataSuccess } from "../api";
 import { setSavedUser, setSavingUser, setUsers } from "./userSlice";
 
 export const startSavingNewUser = (values = {}) => {
@@ -61,6 +62,20 @@ export const startLoadingUsers = () => {
       } else {
         console.log('Error', message);
       }
+    }
+  }
+}
+
+export const startConfirmingUser = ( token ) => {
+  return async (dispatch) => {
+    dispatch(fetchDataStart());
+    try {
+      const { message } = await nextSnkrsApi.get(
+        `users/confirm/${token}`
+      );
+      dispatch(fetchDataSuccess(message));
+    } catch (error) {
+      dispatch(fetchDataFailure(error.message));
     }
   }
 }
