@@ -1,24 +1,19 @@
-import { Grid, Typography } from "@mui/material"
+import { Box, Container } from "@mui/material"
 import { SnkrAppLayout } from "../layout/SnkrAppLayout"
 
-export const ProductPage = ({ children, title = '' }) => {
+export const ProductPage = ({ children }) => {
   return (
     <SnkrAppLayout >
-      <Grid container spacing={0} sx={{ mb:2 }}>
-        <Typography variant="h4" color="primary.main" component="div">
-            { title }
-          </Typography>
-      </Grid>
-      <Grid 
-        container 
-        spacing={0} 
-        direction='column' 
-        alignItems='center' justifyContent='center'
-        sx={{ minHeight: 'calc(100vh - 110px)', borderRadius: 4, padding: '32px 64px', border: 'solid 1px #F4F4F4' }}
-        className='animate__animated animate__fadeIn animate__faster'
+      <Box component="main"
+        sx={{
+          flexGrow: 1,
+          py: 8
+        }}
       >
-        { children }
-      </Grid>
+        <Container maxWidth="xl">
+          { children }
+        </Container>
+      </Box>
     </SnkrAppLayout>
   )
 }
