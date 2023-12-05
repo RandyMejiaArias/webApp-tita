@@ -2,6 +2,7 @@ import { Avatar, Box, IconButton, Stack, SvgIcon, alpha, useMediaQuery } from "@
 
 import { usePopover } from '../../hooks';
 import { AccountPopover } from "./AccountPopover";
+import { Menu } from "@mui/icons-material";
 
 const SIDE_NAV_WIDTH = 280;
 const TOP_NAV_HEIGHT = 64;
@@ -45,8 +46,8 @@ export const NavBar = ({ onNavOpen }) => {
           >
             {!lgUp && (
               <IconButton onClick={onNavOpen}>
-                <SvgIcon fontSize="small">
-                  <Bars3Icon />
+                <SvgIcon>
+                  <Menu color="primary.main" />
                 </SvgIcon>
               </IconButton>
             )}
