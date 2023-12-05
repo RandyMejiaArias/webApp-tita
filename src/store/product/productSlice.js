@@ -12,6 +12,10 @@ export const productSlice = createSlice({
       state.products = action.payload.products;
       state.total = action.payload.total
     },
+    addFetchedProducts: (state, action) => {
+      state.products = { ...state.products , ...action.payload.products};
+      state.total += action.payload.total
+    },
     setCurrentProduct: (state, action) => {
       state.currentProduct = action.payload.currentProduct
     }
@@ -19,6 +23,7 @@ export const productSlice = createSlice({
 });
 
 export const {
+  addFetchedProducts,
   setCurrentProduct,
   setProducts
 } = productSlice.actions;

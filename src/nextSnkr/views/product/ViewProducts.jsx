@@ -1,15 +1,16 @@
-import { Box, Button, Card, CardContent, CardMedia, Grid, InputAdornment, OutlinedInput, Stack, SvgIcon, Typography } from "@mui/material"
+import { Box, Button, Card, CardContent, CardMedia, CircularProgress, Grid, InputAdornment, OutlinedInput, Stack, SvgIcon, Typography } from "@mui/material"
 import { ProductPage } from "../../pages/ProductPage"
 import { Search } from "@mui/icons-material"
 import { useDispatch, useSelector } from "react-redux"
 import { useEffect, useState } from "react"
-import { startLoadingProducts } from "../../../store/product/thunks"
+import { startLoadingProducts, startSearchingProducts } from "../../../store/product/thunks"
 
 export const ViewProducts = () => {
 
   const dispatch = useDispatch();
 
   const { products } = useSelector((state) => state.product );
+  const { data, loading, error } = useSelector((state) => state.api);
 
   const [productsToShow, setProductsToShow] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
@@ -18,6 +19,13 @@ export const ViewProducts = () => {
   useEffect(() => {
     dispatch(startLoadingProducts());
   }, []); 
+
+  useEffect(() => {
+    if(data?.data?.length > 0) {
+      setProductsToShow(data.data);
+      setSearchResults(data.data);
+    }
+  }, [data]); 
 
   useEffect(() => {
     setProductsToShow(products);
@@ -36,6 +44,7 @@ export const ViewProducts = () => {
   };
 
   const handleSearchOnApi = () => {
+    dispatch(startSearchingProducts(searchTerm));
     console.log(searchTerm)
   }
 
@@ -86,8 +95,12 @@ export const ViewProducts = () => {
       </Card>
 
       <Grid container spacing={3}>
+        
         { 
-          searchResults.map((product) => (
+          loading ? <Grid container direction='row' justifyContent='center'>
+            <CircularProgress color='warning'/>
+          </Grid>
+          : searchResults.map((product) => (
             <Grid item
               xs={12}
               md={6}

@@ -1,6 +1,6 @@
 import nextSnkrsApi from "../../api/nextSnkrsApi";
 import { fetchDataFailure, fetchDataStart, fetchDataSuccess } from "../api";
-import { setProducts } from "./productSlice";
+import { addFetchedProducts, setProducts } from "./productSlice";
 
 export const startLoadingProducts = () => {
   return async (dispatch) => {
@@ -29,6 +29,25 @@ export const startLoadingProducts = () => {
       } else {
         console.log('Error', message);
       }
+    }
+  }
+}
+
+export const startSearchingProducts = (query) => {
+  return async (dispatch) => {
+    dispatch(fetchDataStart());
+    try {
+      const { data } = await nextSnkrsApi.get(
+       `products/search?queryText=${query}`
+      );
+      dispatch(fetchDataSuccess(data));
+      dispatch(addFetchedProducts({
+        total: data.total,
+        products: data.data
+      }));
+    } catch (error) {
+      console.log(error)
+      dispatch(fetchDataFailure(error.message));
     }
   }
 }
