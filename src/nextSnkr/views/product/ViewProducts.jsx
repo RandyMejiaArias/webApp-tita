@@ -1,8 +1,8 @@
-import { Box, Card, CardContent, CardMedia, Grid, InputAdornment, OutlinedInput, Stack, SvgIcon, Typography } from "@mui/material"
+import { Box, Button, Card, CardContent, CardMedia, Grid, InputAdornment, OutlinedInput, Stack, SvgIcon, Typography } from "@mui/material"
 import { ProductPage } from "../../pages/ProductPage"
 import { Search } from "@mui/icons-material"
 import { useDispatch, useSelector } from "react-redux"
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import { startLoadingProducts } from "../../../store/product/thunks"
 
 export const ViewProducts = () => {
@@ -11,9 +11,33 @@ export const ViewProducts = () => {
 
   const { products } = useSelector((state) => state.product );
 
+  const [productsToShow, setProductsToShow] = useState([]);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [searchResults, setSearchResults] = useState([]);
+
   useEffect(() => {
     dispatch(startLoadingProducts());
   }, []); 
+
+  useEffect(() => {
+    setProductsToShow(products);
+    setSearchResults(products);
+  }, [products]);
+
+  const handleSearch = (event) => {
+    setSearchTerm(event.target.value);
+    const filteredProducts = productsToShow.filter( product => 
+      product.model.toLowerCase().includes(event.target.value.toLowerCase())
+      || product.brand.toLowerCase().includes(event.target.value.toLowerCase())
+      || product.sku.toLowerCase().includes(event.target.value.toLowerCase())
+      || product.colorway.toLowerCase().includes(event.target.value.toLowerCase())
+    );
+    setSearchResults(filteredProducts);
+  };
+
+  const handleSearchOnApi = () => {
+    console.log(searchTerm)
+  }
 
   return (
     <ProductPage>
@@ -30,7 +54,8 @@ export const ViewProducts = () => {
       </Stack>
       <Card sx={{ p: 2, my: 4 }}>
         <OutlinedInput 
-          defaultValue=""
+          value={searchTerm}
+          onChange={handleSearch}
           fullWidth
           placeholder="Search product"
           sx={{ maxWidth: 500 }}
@@ -45,11 +70,24 @@ export const ViewProducts = () => {
             </InputAdornment>
           )}
         ></OutlinedInput>
+        <Button
+          sx= {{ ml: 2 }}
+          onClick={handleSearchOnApi}
+          startIcon={(
+            <SvgIcon fontSize="small">
+              <Search />
+            </SvgIcon>
+          )}
+          variant="contained"
+        >
+          Deep Search
+        </Button>
+
       </Card>
 
       <Grid container spacing={3}>
         { 
-          products.map((product) => (
+          searchResults.map((product) => (
             <Grid item
               xs={12}
               md={6}
