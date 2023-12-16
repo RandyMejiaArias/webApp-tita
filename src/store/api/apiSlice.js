@@ -5,10 +5,11 @@ export const apiSlice = createSlice({
 	initialState: {
 		data: null,
 		loading: false,
-		error: null,
+		error: null
 	},
 	reducers: {
 		fetchDataStart(state) {
+			state.data = null;
 			state.loading = true;
 			state.error = null;
 		},
@@ -17,6 +18,7 @@ export const apiSlice = createSlice({
 			state.data = action.payload;
 		},
 		fetchDataFailure(state, action) {
+			state.data = null;
 			state.loading = false;
 			state.error = action.payload;
 		},
