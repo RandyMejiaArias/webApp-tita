@@ -10,9 +10,9 @@ export const startLoadingProducts = () => {
         '/products'
       );
 
-      const { data, total, message } = dataReceived;
+      const { data, total } = dataReceived;
       
-      dispatch(fetchDataSuccess(message));
+      dispatch(fetchDataSuccess(data));
       dispatch(setProducts({
         products: data, total
       }));
