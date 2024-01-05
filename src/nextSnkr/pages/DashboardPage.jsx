@@ -1,7 +1,7 @@
 import { Grid, Typography } from "@mui/material"
 import { SnkrAppLayout } from "../layout/SnkrAppLayout"
 
-export const Dashboard = () => {
+export const DashboardPage = () => {
   return (
     <SnkrAppLayout >
       <Grid container spacing={0} sx={{ mb:2 }}>

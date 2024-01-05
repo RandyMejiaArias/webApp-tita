@@ -26,7 +26,7 @@ const useUserIds = (users) => {
   );
 };
 
-export const User = () => {
+export const UsersPage = () => {
 
   const dispatch = useDispatch();
 

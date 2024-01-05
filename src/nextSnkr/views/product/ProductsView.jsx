@@ -1,11 +1,12 @@
-import { Box, Button, Card, CardContent, CardMedia, CircularProgress, Grid, InputAdornment, OutlinedInput, Stack, SvgIcon, Typography } from "@mui/material"
+import { Box, Button, Card, CardActionArea, CardContent, CardMedia, CircularProgress, Grid, InputAdornment, OutlinedInput, Stack, SvgIcon, Typography } from "@mui/material"
 import { ProductPage } from "../../pages/ProductPage"
 import { Search } from "@mui/icons-material"
 import { useDispatch, useSelector } from "react-redux"
 import { useEffect, useState } from "react"
+import { Link as RouterLink } from 'react-router-dom'
 import { startLoadingProducts, startSearchingProducts } from "../../../store/product/thunks"
 
-export const ViewProducts = () => {
+export const ProductsView = () => {
 
   const dispatch = useDispatch();
 
@@ -114,57 +115,53 @@ export const ViewProducts = () => {
                   height: '100%'
                 }}
               >
-                <CardContent>
-                <CardMedia
-                  sx={{ height: 280, width: 'auto', objectFit: 'fill' }}
-                  image={product.mainImage}
-                  title={product.model}
-                />
-                  <Box
-                    sx={{
-                      display: 'flex',
-                      justifyContent: 'center',
-                      pb: 3
-                    }}
+                <CardActionArea component={RouterLink} to={`/product/${product._id}`}>
+                  <CardContent>
+                    <CardMedia
+                      component="img"
+                      height="280"
+                      sx={{ width: '100%', objectFit: 'contain', aspectRatio: '3/2' }}
+                      image={product.mainImage}
+                      title={product.model}
+                    />
+                    <Typography
+                      align="left"
+                      gutterBottom
+                      variant="h5"
+                    >
+                      { product.colorway }
+                    </Typography>
+                    <Typography 
+                      align="left"
+                      variant="body1"
+                    >
+                      { product.model }
+                    </Typography>
+                  </CardContent>
+                  <Box sx={{ flexGrow: 1 }} />
+                  <Stack
+                    alignItems="center"
+                    direction="row"
+                    justifyContent="space-between"
+                    spacing={2}
+                    sx={{ p: 2 }}
                   >
-                  </Box>
-                  <Typography
-                    align="left"
-                    gutterBottom
-                    variant="h5"
-                  >
-                    { product.model }
-                  </Typography>
-                  <Typography 
-                    align="left"
-                    variant="body1"
-                  >
-                    { product.colorway }
-                  </Typography>
-                </CardContent>
-                <Box sx={{ flexGrow: 1 }} />
-                <Stack
-                  alignItems="center"
-                  direction="row"
-                  justifyContent="space-between"
-                  spacing={2}
-                  sx={{ p: 2 }}
-                >
-                  <Typography 
-                    align="left"
-                    variant="body2"
-                    color="text.secondary"
-                  >
-                    { product.brand }
-                  </Typography>
-                  <Typography 
-                    align="left"
-                    variant="caption"
-                    color="text.secondary"
-                  >
-                    { product.type }
-                  </Typography>
-                </Stack>
+                    <Typography 
+                      align="left"
+                      variant="body2"
+                      color="text.secondary"
+                    >
+                      { product.brand }
+                    </Typography>
+                    <Typography 
+                      align="left"
+                      variant="caption"
+                      color="text.secondary"
+                    >
+                      { product.type }
+                    </Typography>
+                  </Stack>
+                </CardActionArea>
               </Card>
             </Grid>
           ))

@@ -160,9 +160,6 @@ export const AccountPage = () => {
                   </Card>
                   
                   <Divider />
-                  <Typography variant="h5">
-                    Preferred Scoring
-                  </Typography>
                   <Card sx={{ mt: 2 }}>
                     <CardHeader
                       title="Preferenced Score"
