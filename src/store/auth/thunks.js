@@ -1,4 +1,5 @@
 import nextSnkrsApi from '../../api/nextSnkrsApi';
+import { setCurrentUser } from '../user';
 import { checkingCredentials, login, logout } from './authSlice';
 
 export const checkingAuthentication = (email, password) => {
@@ -48,12 +49,17 @@ export const startLoginWithEmailPassword = ({email, password}) => {
             const { data: userData, status } = await nextSnkrsApi.get(
                 'users/me'
             )
-
-            const { emailVerified, role, username, _id } = userData
-
+            
             if(!userData) return dispatch(logout({errorMessage}));
-    
-            dispatch(login({_id, email, username }));
+
+            const { data: collectiblesData } = await nextSnkrsApi.get(
+                'users/me/collectibles'
+            )
+
+            userData.collectibles = collectiblesData.data
+            const { emailVerified, role, username, _id } = userData
+            dispatch(setCurrentUser({ currentUser: userData }))
+            dispatch(login({_id, email, username }))
         } catch ({ response, request, message }) {
             if(response) {
                 const { data, status } = response;

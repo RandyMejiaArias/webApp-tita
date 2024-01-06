@@ -46,5 +46,14 @@ export const routes = [
         <Person />
       </SvgIcon>
     )
+  },
+  {
+    title: 'Favorites',
+    path: '/favorites',
+    icon: (
+      <SvgIcon fontSize="small">
+        <Person />
+      </SvgIcon>
+    )
   }
 ]
