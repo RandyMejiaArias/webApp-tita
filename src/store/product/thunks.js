@@ -1,6 +1,34 @@
 import nextSnkrsApi from "../../api/nextSnkrsApi";
-import { fetchDataFailure, fetchDataStart, fetchDataSuccess } from "../api";
-import { addFetchedProducts, setProducts } from "./productSlice";
+import { fetchDataFailure, fetchDataStart, fetchDataSuccess } from "../api/apiProductsSlice";
+import { addFetchedProducts, setCurrentProduct, setProducts } from "./productSlice";
+
+export const startLoadingProductById = (productId) => {
+  return async (dispatch) => {
+    dispatch(fetchDataStart());
+    try {
+      const { data: dataReceived } = await nextSnkrsApi.get(
+        `/products/${productId}`
+      );
+      const { data } = dataReceived;
+      
+      dispatch(fetchDataSuccess({data}));
+      dispatch(setCurrentProduct({currentProduct: data}));
+    } catch ({ response, request, message, status }) {
+      dispatch(fetchDataFailure(response.data));
+      if (response) {
+        console.log('response error');
+        console.error(response.data);
+      } else if (request) {
+        dispatch(fetchDataFailure({
+          message: 'Error on connect with server.',
+          status: 500
+        }));
+      } else {
+        console.log('Error', message);
+      }
+    }
+  }
+}
 
 export const startLoadingProducts = () => {
   return async (dispatch) => {
@@ -9,10 +37,10 @@ export const startLoadingProducts = () => {
       const { data: dataReceived } = await nextSnkrsApi.get(
         '/products'
       );
-
+      
       const { data, total } = dataReceived;
       
-      dispatch(fetchDataSuccess(data));
+      dispatch(fetchDataSuccess({data}));
       dispatch(setProducts({
         products: data, total
       }));
