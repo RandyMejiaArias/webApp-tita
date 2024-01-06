@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-export const apiSlice = createSlice({
-	name: 'api',
+export const apiScoreCharacteristicsSlice = createSlice({
+	name: 'apiScoreCharacteristics',
 	initialState: {
 		data: null,
 		loading: false,
@@ -29,4 +29,4 @@ export const {
 	fetchDataFailure,
 	fetchDataStart,
 	fetchDataSuccess
-} = apiSlice.actions;
+} = apiScoreCharacteristicsSlice.actions;

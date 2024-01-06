@@ -1,5 +1,5 @@
 import nextSnkrsApi from "../../api/nextSnkrsApi";
-import { fetchDataFailure, fetchDataStart, fetchDataSuccess } from "../api";
+import { fetchDataFailure, fetchDataStart, fetchDataSuccess } from "../api/apiPreferredScoreSlice";
 import { setPreferredScores } from "./preferredScoreSlice"
 
 export const startSavingPreferredScore = (values = {}) => {
