@@ -1,4 +1,4 @@
-import { Box, Card, CardContent, Grid, Typography } from '@mui/material'
+import { Box, Typography, Unstable_Grid2 as Grid } from '@mui/material'
 
 import bgImage from '../../assets/Recordatorio.png';
 
@@ -11,7 +11,7 @@ export const AuthLayout = ({children}) => {
       }}
     >
       <Grid container sx={{ flex: '1 1 auto', minHeight: '100vh' }}>
-        <Grid 
+        <Grid
           xs={12}
           lg={6}
           sx={{

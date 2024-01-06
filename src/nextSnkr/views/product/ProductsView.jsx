@@ -11,7 +11,7 @@ export const ProductsView = () => {
   const dispatch = useDispatch();
 
   const { products } = useSelector((state) => state.product );
-  const { data, loading, error } = useSelector((state) => state.api);
+  const { data, loading, error } = useSelector((state) => state.apiProducts);
 
   const [productsToShow, setProductsToShow] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
@@ -96,7 +96,6 @@ export const ProductsView = () => {
       </Card>
 
       <Grid container spacing={3}>
-        
         { 
           loading ? <Grid container direction='row' justifyContent='center'>
             <CircularProgress color='warning'/>
