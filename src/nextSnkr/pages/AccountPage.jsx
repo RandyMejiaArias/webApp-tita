@@ -14,7 +14,8 @@ export const AccountPage = () => {
 
   const dispatch = useDispatch();
 
-  const { data, loading, error } = useSelector((state) => state.api);
+  const { data: dataApiScoreCharacteristic, loading: loadingApiScoreCharacteristic, error: errorApiScoreCharacteristic } = useSelector((state) => state.apiScoreCharacteristics);
+  const { data: dataApiPreferredScore, loading: loadingApiPreferredScore, error: errorApiPreferredScore } = useSelector((state) => state.apiPreferredScores);
   const { characteristics } = useSelector(state => state.characteristic );
   const { preferredScores } = useSelector(state => state.preferredScores );
 
@@ -33,12 +34,12 @@ export const AccountPage = () => {
 
   // TODO: Review method
   useEffect(() => {
-    console.log(data?.message)
-    if(data?.message) {
+    console.log(dataApiScoreCharacteristic?.message)
+    if(dataApiScoreCharacteristic?.message) {
       dispatch(startLoadingCharacteristics());
       window.location.reload(false);
     }
-  }, [loading]); 
+  }, [loadingApiScoreCharacteristic]); 
 
   const handleSubmitScores = (values) => {
     dispatch(startSavingPreferredScore(values));
