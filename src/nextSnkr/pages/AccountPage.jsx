@@ -1,49 +1,14 @@
 import { Avatar, Box, Button, Card, CardActions, CardContent, CardHeader, Container, Divider, Unstable_Grid2 as Grid, Stack, SvgIcon, TextField, Typography } from "@mui/material"
 import { SnkrAppLayout } from "../layout/SnkrAppLayout"
 import { useDispatch, useSelector } from "react-redux";
-import { startLoadingCharacteristics } from "../../store/scoreCharacteristic";
 import { useEffect, useState } from "react";
 import { Form, Formik } from "formik";
 import * as Yup from "yup";
-import { startLoadingPreferredScore, startSavingPreferredScore } from "../../store/preferredScore/thunks";
 import { Delete } from "@mui/icons-material";
 
 export const AccountPage = () => {
 
   const { email, username, role } = useSelector((state) => state.auth );
-
-  const dispatch = useDispatch();
-
-  const { data: dataApiScoreCharacteristic, loading: loadingApiScoreCharacteristic, error: errorApiScoreCharacteristic } = useSelector((state) => state.apiScoreCharacteristics);
-  const { data: dataApiPreferredScore, loading: loadingApiPreferredScore, error: errorApiPreferredScore } = useSelector((state) => state.apiPreferredScores);
-  const { characteristics } = useSelector(state => state.characteristic );
-  const { preferredScores } = useSelector(state => state.preferredScores );
-
-  const [ characteristicsToShow, setCharacteristicsToShow ] = useState([]);
-
-  useEffect(() => {
-    dispatch(startLoadingPreferredScore());
-    dispatch(startLoadingCharacteristics());
-  }, []);
-
-  useEffect(() => {
-    const characteristicsFiltered = characteristics.filter(elementA => !preferredScores.some(elementB => elementA._id === elementB.scoreCharacteristic._id));
-
-    setCharacteristicsToShow(characteristicsFiltered);
-  }, [characteristics]);
-
-  // TODO: Review method
-  useEffect(() => {
-    console.log(dataApiScoreCharacteristic?.message)
-    if(dataApiScoreCharacteristic?.message) {
-      dispatch(startLoadingCharacteristics());
-      window.location.reload(false);
-    }
-  }, [loadingApiScoreCharacteristic]); 
-
-  const handleSubmitScores = (values) => {
-    dispatch(startSavingPreferredScore(values));
-  }
 
   return (
     <SnkrAppLayout >
@@ -161,151 +126,6 @@ export const AccountPage = () => {
                   </Card>
                   
                   <Divider />
-                  <Card sx={{ mt: 2 }}>
-                    <CardHeader
-                      title="Preferenced Score"
-                    />
-                    <CardContent sx={{ pt: 0 }}>
-                      <Box sx={{ m: -1.5 }}>
-                        { preferredScores.map((element) => (
-                          <Grid
-                            key={element._id}
-                            container
-                            spacing={3}
-                          >
-                            <Grid
-                              xs={12}
-                              md={6}
-                            >
-                              <TextField 
-                                fullWidth
-                                size="small"
-                                name="scoreCharacteristic"
-                                label='scoreCharacteristic'
-                                value={element.scoreCharacteristic.name}
-                                type="text"
-                              />
-                            </Grid>
-                            <Grid
-                              xs={12}
-                              md={6}
-                            >
-                              <Stack spacing={2} alignItems="center" direction="row">
-                                <TextField 
-                                  fullWidth
-                                  size="small"
-                                  name="scoreCharacteristic"
-                                  label='scoreCharacteristic'
-                                  value={element.score}
-                                  type="number"
-                                />
-                                <SvgIcon aria-label="delete">
-                                  <Delete />
-                                </SvgIcon>
-                              </Stack>
-                            </Grid>
-                          </Grid>
-                        ))}
-                      </Box>
-                    </CardContent>
-                  </Card>
-                  <Card sx={{ mt: 2 }}>
-                    <CardHeader
-                      title="Add score to preferences"
-                    />
-                    <Formik
-                      initialValues={{
-                        scoreCharacteristic: '',
-                        score: 0
-                      }}
-                      validationSchema={ Yup.object().shape({
-                        scoreCharacteristic: Yup.string(),
-                        score: Yup.number()
-                      })}
-                      onSubmit={ (values, {resetForm}) => {
-                        handleSubmitScores(values);
-                        resetForm();
-                      }}
-                    >
-                      { ({ handleChange, handleBlur, values, submitForm, errors, touched, isValid, dirty }) => (
-                        <Form>
-                          <CardContent sx={{ pt: 0 }}>
-                            <Box sx={{ m: -1.5 }}>
-                              <Grid container
-                                spacing={3}
-                              >
-                                <Grid
-                                  xs={12}
-                                  md={6}
-                                >
-                                  <TextField 
-                                    fullWidth
-                                    label="Select characteristic"
-                                    name="scoreCharacteristic"
-                                    onChange={handleChange}
-                                    value={values.scoreCharacteristic}
-                                    required
-                                    select
-                                    SelectProps={{ native: true }}
-                                    onBlur={handleBlur}
-                                    helperText={touched.scoreCharacteristic && errors.scoreCharacteristic}
-                                    error={!!(touched.scoreCharacteristic && errors.scoreCharacteristic)}
-                                  >
-                                    <option
-                                      value='0'
-                                    >
-                                    </option>
-                                    { characteristicsToShow.map((option) => (
-                                      <option
-                                        key={option._id}
-                                        value={option._id}
-                                      >
-                                        {option.name}
-                                      </option>
-                                    ))}
-                                  </TextField>
-                                </Grid>
-                                <Grid
-                                  xs={12}
-                                  md={6}
-                                >
-                                  <TextField 
-                                    fullWidth
-                                    name="score"
-                                    label='Score'
-                                    value={values.score}
-                                    type="number"
-                                    onChange={handleChange}
-                                    onBlur={handleBlur}
-                                    helperText={touched.score && errors.score}
-                                    error={!!(touched.score && errors.score)}
-                                  />
-                                </Grid>
-                              </Grid>
-                            </Box>  
-                            <Typography 
-                              color="error"
-                              variant="body2"
-                              sx={{ mt: 3 }}
-                            >
-                              errorMessage 
-                            </Typography>
-                          </CardContent>
-                          <Divider />
-                          <CardActions 
-                            sx={{ justifyContent: 'flex-end' }}
-                          >
-                            <Button
-                              variant="contained"
-                              onClick={ submitForm }
-                            >
-                              Save Score
-                            </Button>
-                          </CardActions>
-                        </Form>
-                      )}
-                    </Formik>
-                  </Card>
                 </Grid>
               </Grid>
             </div>

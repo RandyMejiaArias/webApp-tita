@@ -74,7 +74,7 @@ export const UsersPage = () => {
             >
               <Stack spacing={1}>
                 <Typography variant="h4">
-                  Customers
+                  Users
                 </Typography>
               </Stack>
               <div>
@@ -85,6 +85,7 @@ export const UsersPage = () => {
                     </SvgIcon>
                   )}
                   variant="contained"
+                  onClick={ () => {} }
                 >
                   Add
                 </Button>

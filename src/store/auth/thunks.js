@@ -52,11 +52,6 @@ export const startLoginWithEmailPassword = ({email, password}) => {
             
             if(!userData) return dispatch(logout({errorMessage}));
 
-            const { data: collectiblesData } = await nextSnkrsApi.get(
-                'users/me/collectibles'
-            )
-
-            userData.collectibles = collectiblesData.data
             const { emailVerified, role, username, _id } = userData
             dispatch(setCurrentUser({ currentUser: userData }))
             dispatch(login({_id, email, username }))

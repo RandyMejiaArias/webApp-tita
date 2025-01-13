@@ -3,7 +3,7 @@ import { SvgIcon } from "@mui/material";
 
 export const routes = [
   {
-    title: 'Dashboard',
+    title: 'Reporte',
     path: '/',
     icon: (
       <SvgIcon fontSize="small">
@@ -12,20 +12,38 @@ export const routes = [
     )
   },
   {
-    title: 'Products',
-    path: '/products',
+    title: 'Reporte',
+    path: '/',
     icon: (
       <SvgIcon fontSize="small">
-        <ShoppingBag />
+        <BarChart />
       </SvgIcon>
     )
   },
   {
-    title: 'Scoring Characterisctics',
-    path: '/scoringCharacteristics',
+    title: 'Reporte',
+    path: '/',
     icon: (
       <SvgIcon fontSize="small">
-        <ShoppingBag />
+        <BarChart />
+      </SvgIcon>
+    )
+  },
+  {
+    title: 'Reporte',
+    path: '/',
+    icon: (
+      <SvgIcon fontSize="small">
+        <BarChart />
+      </SvgIcon>
+    )
+  },
+  {
+    title: 'Reporte',
+    path: '/',
+    icon: (
+      <SvgIcon fontSize="small">
+        <BarChart />
       </SvgIcon>
     )
   },
@@ -38,22 +56,13 @@ export const routes = [
       </SvgIcon>
     )
   },
-  {
-    title: 'Account',
-    path: '/account',
-    icon: (
-      <SvgIcon fontSize="small">
-        <Person />
-      </SvgIcon>
-    )
-  },
-  {
-    title: 'Favorites',
-    path: '/favorites',
-    icon: (
-      <SvgIcon fontSize="small">
-        <Person />
-      </SvgIcon>
-    )
-  }
+  // {
+  //   title: 'Account',
+  //   path: '/account',
+  //   icon: (
+  //     <SvgIcon fontSize="small">
+  //       <Person />
+  //     </SvgIcon>
+  //   )
+  // }
 ]

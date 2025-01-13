@@ -79,37 +79,3 @@ export const startConfirmingUser = ( token ) => {
     }
   }
 }
-
-export const startAddingFavToUser = ( dataToUpload ) => {
-  return async (dispatch) => {
-    dispatch(fetchDataStart());
-    try {
-      const { data } = await nextSnkrsApi.put(
-        `users/me/collectibles`,
-        dataToUpload
-      );
-      const { message } = data
-      dispatch(fetchDataSuccess(message));
-    } catch (error) {
-      console.log({error})
-      dispatch(fetchDataFailure(error.message));
-    }
-  }
-}
-
-export const startRemovingFavToUser = ( dataToUpload ) => {
-  return async (dispatch) => {
-    dispatch(fetchDataStart());
-    try {
-      const { data } = await nextSnkrsApi.put(
-        `users/me/removeCollectibles`,
-        dataToUpload
-      );
-      const { message } = data
-      dispatch(fetchDataSuccess(message));
-    } catch (error) {
-      console.log({error})
-      dispatch(fetchDataFailure(error.message));
-    }
-  }
-}
