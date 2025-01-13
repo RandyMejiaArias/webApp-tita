@@ -1,6 +1,6 @@
 import { Box, Typography, Unstable_Grid2 as Grid } from '@mui/material'
 
-import bgImage from '../../assets/Recordatorio.png';
+import bgImage from '../../assets/Recordatorio.jpg';
 
 export const AuthLayout = ({children}) => {
   return (
@@ -37,33 +37,6 @@ export const AuthLayout = ({children}) => {
             color: "white"
           }}
         >
-          <Grid item
-            xs={12}
-            sm={8}
-            md={5}
-            sx={{
-              flexDirection: 'column',
-              alignItems: 'center',
-              justifyContent: 'center'
-            }}
-          >
-            <Typography 
-              align="center"
-              color="inherit"
-              variant='h1'
-              sx={{
-                fontSize: '24px',
-                lineHeight: '32px',
-                mb: 1
-              }}
-            >
-              Welcome to{' '}
-              <Box component="a"
-                sx={{ color: '#E8640A'}}
-                target='_blank'
-              > Next SNKR</Box>
-            </Typography>
-          </Grid>
         </Grid>
       </Grid>
     </Box>
