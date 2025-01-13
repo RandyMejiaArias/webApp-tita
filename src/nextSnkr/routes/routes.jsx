@@ -3,8 +3,8 @@ import { SvgIcon } from "@mui/material";
 
 export const routes = [
   {
-    title: 'Reporte',
-    path: '/',
+    title: 'R Relación Precio unitario',
+    path: '/report1',
     icon: (
       <SvgIcon fontSize="small">
         <BarChart />
@@ -12,8 +12,8 @@ export const routes = [
     )
   },
   {
-    title: 'Reporte',
-    path: '/',
+    title: 'R Ventas Cliente/Ciudad',
+    path: '/report2',
     icon: (
       <SvgIcon fontSize="small">
         <BarChart />
@@ -21,8 +21,8 @@ export const routes = [
     )
   },
   {
-    title: 'Reporte',
-    path: '/',
+    title: 'R Ventas Categorias',
+    path: '/report3',
     icon: (
       <SvgIcon fontSize="small">
         <BarChart />
@@ -30,25 +30,7 @@ export const routes = [
     )
   },
   {
-    title: 'Reporte',
-    path: '/',
-    icon: (
-      <SvgIcon fontSize="small">
-        <BarChart />
-      </SvgIcon>
-    )
-  },
-  {
-    title: 'Reporte',
-    path: '/',
-    icon: (
-      <SvgIcon fontSize="small">
-        <BarChart />
-      </SvgIcon>
-    )
-  },
-  {
-    title: 'Users',
+    title: 'Usuarios',
     path: '/users',
     icon: (
       <SvgIcon fontSize="small">
