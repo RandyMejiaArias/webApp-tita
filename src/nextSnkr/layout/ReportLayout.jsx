@@ -23,7 +23,7 @@ export const ReportLayout = ({children}) => {
         spacing={0} 
         direction='column' 
         alignItems='center' justifyContent='center'
-        sx={{ minHeight: 'calc(100vh - 110px)', borderRadius: 4, padding: '32px 64px', border: 'solid 1px #F4F4F4' }}
+        sx={{ minHeight: 'calc(100vh - 110px)', borderRadius: 4 }}
         className='animate__animated animate__fadeIn animate__faster'
       >
         <LayoutContainer>
