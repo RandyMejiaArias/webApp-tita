@@ -1,22 +1,23 @@
 import { useMemo } from "react";
-import { useDispatch, useSelector } from "react-redux";
 import { AuthLayout } from "../layout/AuthLayout";
-import { Alert, Box, Button, Link, Stack, TextField, Typography } from "@mui/material";
+import { Box, Button, Link, Stack, TextField, Typography } from "@mui/material";
 import { Form, Formik } from "formik";
 import * as Yup from "yup";
-import { startLoginWithEmailPassword } from "../../store/auth/thunks";
 import { Link as RouterLink } from "react-router-dom";
+import { useAuthStore } from "../../store/auth/auth.store";
 
 export const LoginPage = () => {
-  const { status, errorMessage } = useSelector((state) => state.auth);
 
-  const dispatch = useDispatch();
+  const userStatus = useAuthStore(state => state.status);
+  const errorMessage = useAuthStore(state => state.errorMessage);
 
-  const isAuthenticating = useMemo(() => status === "checking", [status]);
+  const loginUser = useAuthStore(state => state.loginUser);
 
-  const handleLogin = (event) => {
+  const isAuthenticating = useMemo(() => userStatus === "checking", [userStatus]);
+
+  const handleLogin = async (event) => {
     const { email, password } = event;
-    dispatch(startLoginWithEmailPassword({ email, password }));
+    await loginUser(email, password);
   };
 
   return (
@@ -41,17 +42,6 @@ export const LoginPage = () => {
           <div>
             <Stack spacing={1} sx={{ mb: 3 }}>
               <Typography variant="h4">Login</Typography>
-              <Typography color="text.secondary" variant="body2">
-                Don&apos;t have an account?&nbsp;
-                <Link
-                  component={RouterLink}
-                  underline="hover"
-                  variant="subtitle2"
-                  to="/auth/register"
-                >
-                  Register
-                </Link>
-              </Typography>
             </Stack>
             <Formik 
               initialValues={ {
@@ -60,8 +50,10 @@ export const LoginPage = () => {
               }}
               validationSchema={Yup.object().shape({
                 email: Yup.string()
-                  .email('Must be a valid email.'),
+                  .email('Must be a valid email.')
+                  .required('Email is required'),
                 password: Yup.string()
+                  .required('Password is required')
               })}
               onSubmit={ (values, {resetForm}) => {
                 handleLogin(values);
@@ -108,23 +100,6 @@ export const LoginPage = () => {
                     onClick={ submitForm }
                     disabled={ isAuthenticating }
                   >Login</Button>
-                  <Alert 
-                    color="primary"
-                    severity="info"
-                    sx={{ mt: 3 }}
-                  >
-                    <div>
-                      As user you can use <b>demo@devias.io</b> and password <b>Password123!</b>
-                    </div>
-                  </Alert>
-                  <Alert 
-                    color="primary"
-                    severity="info"
-                  >
-                    <div>
-                      As admin you can use <b>demo@devias.io</b> and password <b>Password123!</b>
-                    </div>
-                  </Alert>
                 </Form>
               )}
             </Formik>

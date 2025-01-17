@@ -1,41 +1,37 @@
 import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux"
-import { login, logout } from "../store/auth/authSlice";
-import nextSnkrsApi from '../api/nextSnkrsApi';
+import nextSnkrsApi from '../api/titaApi';
+import { useAuthStore } from "../store/auth/auth.store";
 
 export const useCheckAuth = () => {
 
-  const { status } = useSelector(state => state.auth);
-  const dispatch = useDispatch();
+  const userStatus = useAuthStore(state => state.status);
+
+  const logout = useAuthStore(state => state.logout);
 
   useEffect(() => {
     const fetchUser = async () => {
       const userToken = localStorage.getItem('userToken');
-      if(!userToken) return dispatch(logout());
+      if(!userToken) return logout();
       try {
-        const { data: userData, status } = await nextSnkrsApi.get(
+        const { data: userData } = await nextSnkrsApi.get(
           'users/me'
         )
 
-        if(!userData) return dispatch(logout({errorMessage}));
+        if(!userData) return logout();
 
-        const { role, username, _id, email } = userData
-        
-        dispatch(login({_id, email, username, role }));
       } catch ({ response, request, message }) {
         console.log({ response, request, message })
         if(response) {
-          const { data, status } = response;
-          dispatch(logout({ errorMessage: data.message }))
+          logout()
         }else if(request) {
-          dispatch(logout())
+          logout()
         }else 
-          dispatch(logout({ errorMessage: message }))
+          logout()
       }
     }
 
     fetchUser()
   }, []);
 
-  return { status };
+  return { userStatus };
 }
