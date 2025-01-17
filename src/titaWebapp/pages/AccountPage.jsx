@@ -1,5 +1,5 @@
 import { Avatar, Box, Button, Card, CardActions, CardContent, CardHeader, Container, Divider, Unstable_Grid2 as Grid, Stack, SvgIcon, TextField, Typography } from "@mui/material"
-import { SnkrAppLayout } from "../layout/SnkrAppLayout"
+import { AppLayout } from "../layout/AppLayout"
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import { Form, Formik } from "formik";
@@ -11,7 +11,7 @@ export const AccountPage = () => {
   const { email, username, role } = useSelector((state) => state.auth );
 
   return (
-    <SnkrAppLayout >
+    <AppLayout >
       <Box 
         component="main"
         sx={{ 
@@ -132,6 +132,6 @@ export const AccountPage = () => {
           </Stack>
         </Container>
       </Box>
-    </SnkrAppLayout>
+    </AppLayout>
   )
 }

@@ -1,6 +1,6 @@
 import React from 'react'
 import { styled } from '@mui/material/styles';
-import { SnkrAppLayout } from './SnkrAppLayout'
+import { AppLayout } from './AppLayout'
 import { Grid, Typography } from '@mui/material'
 
 const LayoutContainer = styled('div')({
@@ -12,7 +12,7 @@ const LayoutContainer = styled('div')({
 
 export const ReportLayout = ({children}) => {
   return (
-    <SnkrAppLayout >
+    <AppLayout >
       <Grid container spacing={0} sx={{ mb:2, ml:5 }}>
         <Typography variant="h4" color="primary.main" component="div">
           Reporte
@@ -30,6 +30,6 @@ export const ReportLayout = ({children}) => {
           { children }
         </LayoutContainer>
       </Grid>
-    </SnkrAppLayout>
+    </AppLayout>
   )
 }

@@ -1,11 +1,11 @@
 import { Box, Button, Container, Stack, SvgIcon, Typography } from "@mui/material"
-import { SnkrAppLayout } from "../layout/SnkrAppLayout"
+import { AppLayout } from "../layout/AppLayout"
 import { Add } from "@mui/icons-material"
 import { useCallback, useEffect, useMemo, useState } from "react"
 import { useSelection } from "../../hooks";
 import { UserTable } from "../../ui/components/user/UserTable";
 import { useDispatch, useSelector } from "react-redux";
-import { startLoadingUsers } from "../../store/user/thunks";
+import { startLoadingUsers } from "../../store_redux/user/thunks";
 import { applyPagination } from '../../utils/applyPagination'
 
 const useUsers = (data, page, rowsPerPage) => {
@@ -28,6 +28,7 @@ const useUserIds = (users) => {
 
 export const UsersPage = () => {
 
+  // TODO: Quitar el useDispatch y useSelector
   const dispatch = useDispatch();
 
   const { users, total } = useSelector(state => state.user);
@@ -57,7 +58,7 @@ export const UsersPage = () => {
   );
 
   return (
-    <SnkrAppLayout>
+    <AppLayout>
       <Box
         component="main"
         sx={{
@@ -108,6 +109,6 @@ export const UsersPage = () => {
           </Stack>
         </Container>
       </Box>
-    </SnkrAppLayout>
+    </AppLayout>
   )
 }

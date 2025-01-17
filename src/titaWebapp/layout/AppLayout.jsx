@@ -23,7 +23,7 @@ const LayoutContainer = styled('div')({
   width: '100%'
 });
 
-export const SnkrAppLayout = ({children}) => {
+export const AppLayout = ({children}) => {
 
   const [openNav, setOpenNav] = useState(false);
 
@@ -41,7 +41,6 @@ export const SnkrAppLayout = ({children}) => {
     handlePathnameChange()
   }, [location.pathname])
   
-
   return (
     <>
       <NavBar onNavOpen={() => setOpenNav(true)} />

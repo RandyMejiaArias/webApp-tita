@@ -3,7 +3,7 @@ import { SideBarItem } from "./SideBarItem";
 import { Scrollbar } from "./Scrollbar";
 import { Link, useLocation } from "react-router-dom";
 
-import { routes } from '../../nextSnkr/routes/routes.jsx'
+import { routes } from '../../titaWebapp/routes/routes.jsx'
 
 export const SideBar = ({ open, onClose }) => {
   const location = useLocation();

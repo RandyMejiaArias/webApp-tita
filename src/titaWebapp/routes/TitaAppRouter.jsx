@@ -5,7 +5,7 @@ import { Report1View } from "../views/Report1View"
 import { Report2View } from "../views/Report2View"
 import { Report3View } from "../views/Report3View"
 
-export const NextSnkrRouter = () => {
+export const TitaAppRouter = () => {
   return (
     <Routes>
       <Route path='/report1' element={ <Report1View /> }/>
