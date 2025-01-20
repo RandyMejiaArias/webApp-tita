@@ -1,19 +1,18 @@
-import { Box, Button, Container, Stack, SvgIcon, Typography } from "@mui/material"
+import { Box, Button, Container, Dialog, DialogActions, DialogContent, DialogTitle, Stack, SvgIcon, TextField, Typography } from "@mui/material"
 import { AppLayout } from "../layout/AppLayout"
 import { Add } from "@mui/icons-material"
 import { useCallback, useEffect, useMemo, useState } from "react"
 import { useSelection } from "../../hooks";
 import { UserTable } from "../../ui/components/user/UserTable";
-import { useDispatch, useSelector } from "react-redux";
-import { startLoadingUsers } from "../../store_redux/user/thunks";
 import { applyPagination } from '../../utils/applyPagination'
+import { useUsersStore } from "../../store/user/user.store";
 
 const useUsers = (data, page, rowsPerPage) => {
   return useMemo(
     () => {
       return applyPagination(data, page, rowsPerPage);
     },
-    [page, rowsPerPage]
+    [data, page, rowsPerPage]
   );
 };
 
@@ -28,20 +27,36 @@ const useUserIds = (users) => {
 
 export const UsersPage = () => {
 
-  // TODO: Quitar el useDispatch y useSelector
-  const dispatch = useDispatch();
+  const users = useUsersStore(state => state.users);
+  const total = useUsersStore(state => state.total);
+  
+  const getUsers = useUsersStore(state => state.getUsers);
+  const createUser = useUsersStore(state => state.createUser);
 
-  const { users, total } = useSelector(state => state.user);
+  const loadingUsers = async () => {
+    await getUsers();
+  }
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    const formData = new FormData(event.currentTarget);
+    const formJson = Object.fromEntries(formData.entries());
+    await createUser(formJson);
+    loadingUsers();
+    handleModalClose();
+  }
 
   useEffect(() => {
-    dispatch(startLoadingUsers());
-  }, [])
+    loadingUsers();
+  }, []);
 
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const usersToUse = useUsers(users, page, rowsPerPage);
   const usersIds = useUserIds(usersToUse);
   const userSelection = useSelection(usersIds);
+
+  const [modalOpen, setModalOpen] = useState(false);
 
   const handlePageChange = useCallback(
     (event, value) => {
@@ -56,6 +71,14 @@ export const UsersPage = () => {
     },
     []
   );
+
+  const handleModalOpen = () => {
+    setModalOpen(true);
+  };
+
+  const handleModalClose = () => {
+    setModalOpen(false);
+  };
 
   return (
     <AppLayout>
@@ -86,7 +109,7 @@ export const UsersPage = () => {
                     </SvgIcon>
                   )}
                   variant="contained"
-                  onClick={ () => {} }
+                  onClick={ handleModalOpen }
                 >
                   Add
                 </Button>
@@ -96,17 +119,64 @@ export const UsersPage = () => {
             <UserTable
               count={total}
               items={usersToUse}
-              onDeselectAll={userSelection.handleDeselectAll}
-              onDeselectOne={userSelection.handleDeselectOne}
               onPageChange={handlePageChange}
               onRowsPerPageChange={handleRowsPerPageChange}
-              onSelectAll={userSelection.handleSelectAll}
-              onSelectOne={userSelection.handleSelectOne}
               page={page}
               rowsPerPage={rowsPerPage}
               selected={userSelection.selected}
             />
           </Stack>
+
+          <Dialog
+            open={modalOpen}
+            onClose={handleModalClose}
+            maxWidth="sm"
+            fullWidth
+            PaperProps={{
+              component: 'form',
+              onSubmit: handleSubmit
+            }}>
+              <DialogTitle>Add User</DialogTitle>
+              <DialogContent>
+                <TextField
+                  autoFocus
+                  required
+                  margin="dense"
+                  id="username"
+                  name="username"
+                  label="Username"
+                  type="text"
+                  fullWidth
+                  variant="standard"
+                />
+                <TextField
+                  autoFocus
+                  required
+                  margin="dense"
+                  id="fullname"
+                  name="fullname"
+                  label="Full Name"
+                  type="text"
+                  fullWidth
+                  variant="standard"
+                />
+                <TextField
+                  autoFocus
+                  required
+                  margin="dense"
+                  id="email"
+                  name="email"
+                  label="Email Address"
+                  type="email"
+                  fullWidth
+                  variant="standard"
+                />
+              </DialogContent>
+              <DialogActions>
+                <Button onClick={handleModalClose}>Cancel</Button>
+                <Button type="submit">Create User</Button>
+              </DialogActions>
+          </Dialog>
         </Container>
       </Box>
     </AppLayout>

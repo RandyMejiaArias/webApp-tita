@@ -1,15 +1,15 @@
 import { LogoutOutlined } from "@mui/icons-material"
 import { Box, Divider, MenuItem, MenuList, Popover, Typography } from "@mui/material"
-import { useDispatch } from "react-redux";
-import { logout } from "../../store/auth/authSlice";
+import { useAuthStore } from "../../store/auth/auth.store";
 
 export const AccountPopover = ({ anchorEl, onClose, open }) => {
 
-  const dispatch = useDispatch();
+  const logout = useAuthStore(state => state.logout);
+  const user = useAuthStore(state => state.user);
 
   const handleLogout = async () => {
     localStorage.clear();
-    dispatch(logout());
+    logout();
   };
 
   return (
@@ -30,7 +30,7 @@ export const AccountPopover = ({ anchorEl, onClose, open }) => {
         }}
       >
         <Typography variant="overline">Account</Typography>
-        <Typography color="text.secondary" variant="body2">Name</Typography>
+        <Typography color="text.secondary" variant="body2">{user.email}</Typography>
       </Box>
       <Divider />
       <MenuList

@@ -1,26 +1,28 @@
-import { Box, Button, Container, SvgIcon, Typography } from "@mui/material"
+import { Box, Button, Container, Link, SvgIcon, Typography } from "@mui/material"
 import { ArrowLeftIcon } from "@mui/x-date-pickers"
-import { Link, useNavigate, useParams } from "react-router-dom"
+import { Link as RouterLink, useParams } from "react-router-dom"
 
 import boxImage from '../../assets/noun-open-box-230203.svg';
-import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { CheckingAuth } from "../../ui/components/CheckingAuth";
-import { startConfirmingUser } from "../../store/user";
+import { useUsersStore } from "../../store/user/user.store";
 
 export const ConfirmUserPage = () => {
 
   const { token } = useParams();
 
-  const dispatch = useDispatch();
+  const loading = useUsersStore(state => state.loading);
+  const error = useUsersStore(state => state.errorMessage);
 
-  const { data, loading, error } = useSelector((state) => state.api);
+  const confirmUser = useUsersStore(state => state.confirmUser);
+
+  const handleConfirmUser = async () => {
+    await confirmUser(token);
+  }
 
   useEffect(() => {
-    dispatch(startConfirmingUser(token));
-  }, [dispatch])
-
-  const navigate = useNavigate();
+    handleConfirmUser();
+  }, [token])
   
   if(loading)
     return <CheckingAuth />;
@@ -75,8 +77,8 @@ export const ConfirmUserPage = () => {
                 >
                   Your account has been verified successfully.
                 </Typography>
-                <Button
-                  onClick={ navigate('auth/login') }
+                <Link
+                  component={RouterLink}
                   startIcon={(
                     <SvgIcon fontSize="small">
                       <ArrowLeftIcon />
@@ -84,9 +86,10 @@ export const ConfirmUserPage = () => {
                   )}
                   sx={{ mt: 3 }}
                   variant="contained"
+                  to="/auth/login"
                 >
                   Go back to login
-                </Button>
+                </Link>
               </>
               : <>
                 <Box
