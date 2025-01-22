@@ -3,6 +3,33 @@ import { SvgIcon } from "@mui/material";
 
 export const routes = [
   {
+    title: 'R Predicción Precios',
+    path: '/report4',
+    icon: (
+      <SvgIcon fontSize="small">
+        <BarChart />
+      </SvgIcon>
+    )
+  },
+  {
+    title: 'R Errores',
+    path: '/report5',
+    icon: (
+      <SvgIcon fontSize="small">
+        <BarChart />
+      </SvgIcon>
+    )
+  },
+  {
+    title: 'R Promedios Móviles',
+    path: '/report6',
+    icon: (
+      <SvgIcon fontSize="small">
+        <BarChart />
+      </SvgIcon>
+    )
+  },
+  {
     title: 'R Relación Precio unitario',
     path: '/report1',
     icon: (
