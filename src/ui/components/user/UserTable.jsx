@@ -12,15 +12,13 @@ export const UserTable = ({
   onRowsPerPageChange,
   page = 0,
   rowsPerPage = 0,
-  selected = []
+  selected = [],
+  handleEdit
 }) => {
 
   const removeUser = useUsersStore(state => state.removeUser);
   const getUsers = useUsersStore(state => state.getUsers);
 
-  const handleEdit = () => {
-    console.log(items)
-  };
 
   const handleDelete = async (id) => {
     await removeUser(id);
@@ -92,7 +90,7 @@ export const UserTable = ({
                       { format(new Date(user.createdAt), 'dd/MM/yyyy') }
                     </TableCell>
                     <TableCell align="center">
-                      <IconButton onClick={handleEdit}>
+                      <IconButton onClick={() => handleEdit(user)}>
                         <SvgIcon fontSize="small">
                           <Edit />
                         </SvgIcon>

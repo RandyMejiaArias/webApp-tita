@@ -32,6 +32,7 @@ export const UsersPage = () => {
   
   const getUsers = useUsersStore(state => state.getUsers);
   const createUser = useUsersStore(state => state.createUser);
+  const updateUser = useUsersStore(state => state.updateUser);
 
   const loadingUsers = async () => {
     await getUsers();
@@ -43,7 +44,16 @@ export const UsersPage = () => {
     const formJson = Object.fromEntries(formData.entries());
     await createUser(formJson);
     loadingUsers();
-    handleModalClose();
+    handleModalCreateClose();
+  }
+
+  const handleSubmitEditUser = async (event) => {
+    event.preventDefault();
+    const formData = new FormData(event.currentTarget);
+    const formJson = Object.fromEntries(formData.entries());
+    await updateUser(selectedUser._id, formJson);
+    loadingUsers();
+    handleModalEditClose();
   }
 
   useEffect(() => {
@@ -55,8 +65,10 @@ export const UsersPage = () => {
   const usersToUse = useUsers(users, page, rowsPerPage);
   const usersIds = useUserIds(usersToUse);
   const userSelection = useSelection(usersIds);
+  const [selectedUser, setSelectedUser] = useState(null);
 
-  const [modalOpen, setModalOpen] = useState(false);
+  const [modalCreateOpen, setModalCreateOpen] = useState(false);
+  const [modalEditOpen, setModalEditOpen] = useState(false);
 
   const handlePageChange = useCallback(
     (event, value) => {
@@ -72,12 +84,29 @@ export const UsersPage = () => {
     []
   );
 
-  const handleModalOpen = () => {
-    setModalOpen(true);
+  const handleModalCreateOpen = () => {
+    setModalCreateOpen(true);
   };
 
-  const handleModalClose = () => {
-    setModalOpen(false);
+  const handleModalCreateClose = () => {
+    setModalCreateOpen(false);
+  };
+
+  const handleModalEditOpen = (user) => {
+    setSelectedUser(user);
+    setModalEditOpen(true);
+  };
+
+  const handleModalEditClose = () => {
+    setModalEditOpen(false);
+  };
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setSelectedUser({
+      ...selectedUser,
+      [name]: value
+    });
   };
 
   return (
@@ -109,7 +138,7 @@ export const UsersPage = () => {
                     </SvgIcon>
                   )}
                   variant="contained"
-                  onClick={ handleModalOpen }
+                  onClick={ handleModalCreateOpen }
                 >
                   Add
                 </Button>
@@ -124,12 +153,13 @@ export const UsersPage = () => {
               page={page}
               rowsPerPage={rowsPerPage}
               selected={userSelection.selected}
+              handleEdit={handleModalEditOpen}
             />
           </Stack>
 
           <Dialog
-            open={modalOpen}
-            onClose={handleModalClose}
+            open={modalCreateOpen}
+            onClose={handleModalCreateClose}
             maxWidth="sm"
             fullWidth
             PaperProps={{
@@ -173,8 +203,65 @@ export const UsersPage = () => {
                 />
               </DialogContent>
               <DialogActions>
-                <Button onClick={handleModalClose}>Cancel</Button>
+                <Button onClick={handleModalCreateClose}>Cancel</Button>
                 <Button type="submit">Create User</Button>
+              </DialogActions>
+          </Dialog>
+          
+          <Dialog
+            open={modalEditOpen}
+            onClose={handleModalEditClose}
+            maxWidth="sm"
+            fullWidth
+            PaperProps={{
+              component: 'form',
+              onSubmit: handleSubmitEditUser
+            }}>
+              <DialogTitle>Edit User</DialogTitle>
+              <DialogContent>
+                <TextField
+                  autoFocus
+                  required
+                  margin="dense"
+                  id="username"
+                  name="username"
+                  label="Username"
+                  type="text"
+                  fullWidth
+                  variant="standard"
+                  value={selectedUser?.username}
+                  onChange={handleChange}
+                />
+                <TextField
+                  autoFocus
+                  required
+                  margin="dense"
+                  id="fullname"
+                  name="fullname"
+                  label="Full Name"
+                  type="text"
+                  fullWidth
+                  variant="standard"
+                  value={selectedUser?.fullname}
+                  onChange={handleChange}
+                />
+                <TextField
+                  autoFocus
+                  required
+                  margin="dense"
+                  id="email"
+                  name="email"
+                  label="Email Address"
+                  type="email"
+                  fullWidth
+                  variant="standard"
+                  value={selectedUser?.email}
+                  onChange={handleChange}
+                />
+              </DialogContent>
+              <DialogActions>
+                <Button onClick={handleModalEditClose}>Cancel</Button>
+                <Button type="submit">Edit User</Button>
               </DialogActions>
           </Dialog>
         </Container>

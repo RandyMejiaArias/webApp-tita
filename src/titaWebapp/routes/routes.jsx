@@ -11,15 +11,15 @@ export const routes = [
       </SvgIcon>
     )
   },
-  {
-    title: 'R Errores',
-    path: '/report5',
-    icon: (
-      <SvgIcon fontSize="small">
-        <BarChart />
-      </SvgIcon>
-    )
-  },
+  // {
+  //   title: 'R Errores',
+  //   path: '/report5',
+  //   icon: (
+  //     <SvgIcon fontSize="small">
+  //       <BarChart />
+  //     </SvgIcon>
+  //   )
+  // },
   {
     title: 'R Promedios Móviles',
     path: '/report6',

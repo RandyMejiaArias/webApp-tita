@@ -58,8 +58,21 @@ const usersStore = (set, get) => ({
       throw 'Server Error';
     }
   },
-  
-  updateUser: (user) => set(state => ({ users: state.users.map(u => u.id === user.id ? user : u) })),
+
+  updateUser: async (userId, user) => {
+    try {
+      await titaApi.put(`/users/admin/${userId}`, user);
+      
+      set(state => ({ users: state.users.map(u => u._id === user._id ? { ...u, ...user } : u) }))
+    } catch (error) {
+      if(error instanceof AxiosError) {
+        set( { errorMessage: error.response.data.message } );
+      } else {
+        set( { errorMessage: 'Unable to remove user' } );
+      }
+      throw 'Server Error';
+    }
+  },
 
   confirmUser: async (token) => {
     try {
