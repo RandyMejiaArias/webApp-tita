@@ -5,7 +5,6 @@ import * as Yup from 'yup';
 import { Link as RouterLink } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useMemo } from "react";
-import { startCreatingUserWithEmailPassword } from "../../store/auth/thunks";
 
 export const RegisterPage = () => {
 
