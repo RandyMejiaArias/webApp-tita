@@ -57,6 +57,15 @@ export const routes = [
     )
   },
   {
+    title: 'R Recomendaciones',
+    path: '/report7',
+    icon: (
+      <SvgIcon fontSize="small">
+        <BarChart />
+      </SvgIcon>
+    )
+  },
+  {
     title: 'Usuarios',
     path: '/users',
     icon: (

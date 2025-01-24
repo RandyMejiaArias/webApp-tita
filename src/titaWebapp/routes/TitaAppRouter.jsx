@@ -7,6 +7,7 @@ import { Report3View } from "../views/Report3View"
 import { Report4View } from "../views/Report4View"
 import { Report5View } from "../views/Report5View"
 import { Report6View } from "../views/Report6View"
+import { Report7View } from "../views/Report7View"
 
 export const TitaAppRouter = () => {
   return (
@@ -17,6 +18,7 @@ export const TitaAppRouter = () => {
       <Route path='/report4' element={ <Report4View /> }/>
       <Route path='/report5' element={ <Report5View /> }/>
       <Route path='/report6' element={ <Report6View /> }/>
+      <Route path='/report7' element={ <Report7View /> }/>
       <Route path='/account' element={ <AccountPage /> }/>
       <Route path='/users' element={ <UsersPage /> }/>
       <Route path='/*' element={ <Navigate to='/report1' /> }/>
