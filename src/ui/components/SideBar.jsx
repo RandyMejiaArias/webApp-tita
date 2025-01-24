@@ -3,11 +3,15 @@ import { SideBarItem } from "./SideBarItem";
 import { Scrollbar } from "./Scrollbar";
 import { Link, useLocation } from "react-router-dom";
 
-import { routes } from '../../titaWebapp/routes/routes.jsx'
+import { routes, userRoutes } from '../../titaWebapp/routes/routes.jsx'
+import { useAuthStore } from "../../store/auth/auth.store.js";
 
 export const SideBar = ({ open, onClose }) => {
   const location = useLocation();
   const lgUp = useMediaQuery((theme) => theme.breakpoints.up('lg'));
+
+
+  const user = useAuthStore(state => state.user);
 
   const content = (
     <Scrollbar
@@ -59,20 +63,36 @@ export const SideBar = ({ open, onClose }) => {
               m: 0
             }}
           >
-            { routes.map( (route) => {
-              const active = route.path ? (location.pathname === route.path) : false;
+            { (user.role[0].name === 'administrator') ?
+              routes.map( (route) => {
+                const active = route.path ? (location.pathname === route.path) : false;
 
-              return (
-                <SideBarItem 
-                  active={active}
-                  disabled={route.disabled}
-                  icon={route.icon}
-                  key={route.title}
-                  path={route.path}
-                  title={route.title}
-                />
-              )
-            })}
+                return (
+                  <SideBarItem 
+                    active={active}
+                    disabled={route.disabled}
+                    icon={route.icon}
+                    key={route.title}
+                    path={route.path}
+                    title={route.title}
+                  />
+                )
+              }) :
+              userRoutes.map( (route) => {
+                const active = route.path ? (location.pathname === route.path) : false;
+
+                return (
+                  <SideBarItem 
+                    active={active}
+                    disabled={route.disabled}
+                    icon={route.icon}
+                    key={route.title}
+                    path={route.path}
+                    title={route.title}
+                  />
+                )
+              })
+            }
           </Stack>
         </Box>
       </Box>
